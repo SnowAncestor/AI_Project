@@ -1,7 +1,7 @@
 # Obesity Prediction Project
 
 ## Description
-This project cleans and prepares data for building a predictive model to classify individuals into obesity categories.
+building a predictive model to classify individuals into obesity categories.
 
 ## Requirements
 - Python 3.9+
