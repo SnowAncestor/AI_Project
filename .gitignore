@@ -1,0 +1,42 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+venv/
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Installer logs
+env.log
+pip-log.txt
+
+# Virtual environments
+.venv/
+
+# Pytest cache
+.pytest_cache/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Temporary files
+*.bak
+*.tmp
+*.swp
+
+# Data files (keep actual data, ignore intermediate files)
+data/intermediate/
+data/output/
+data/temp/
+
+# VSCode settings
+.vscode/
