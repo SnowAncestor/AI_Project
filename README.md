@@ -87,9 +87,7 @@ This project implements a machine learning model to predict obesity levels based
 ## 📈 Model Performance
 
 The current model achieves the following metrics:
-- Accuracy: [Add your accuracy]
-- F1-Score: [Add your F1-score]
-- ROC-AUC: [Add your ROC-AUC]
+- Accuracy: [Later]
 
 ## 🔄 Model Pipeline
 
@@ -112,4 +110,5 @@ The current model achieves the following metrics:
 
 ## 🙏 Acknowledgments
 
+- Training data = 85%, Testing = 15%
 - [Dataset Source](In The Data File)
