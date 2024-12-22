@@ -1,9 +1,10 @@
 import pandas as pd
 
-file_path = 'data/ObesityDataSet.csv'
+file_path = 'Data/ObesityDataSet.csv'
 
 data = pd.read_csv(file_path)
 
-print(data.head())
+#حذف الداتا المكررة
+#inplace بمعنى ستعدل على الداتا الأصلية نفسها ولن ينشئ نسخة جديدة
+data.drop_duplicates(inplace=True)
 
-data.describe()
