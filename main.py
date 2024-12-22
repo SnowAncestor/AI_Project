@@ -54,3 +54,17 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.15, stratify=y
 )
 
+#الآن اختيار الخوارزمية المناسبة او تجربة عدة خوارزميات 
+
+
+
+
+
+#fit module
+
+
+#معرفة ال accurcy
+
+
+#اصدار النموذج
+
