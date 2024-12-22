@@ -50,21 +50,7 @@ This project implements a machine learning model to predict obesity levels based
 
 ## 💻 Usage
 
-1. Prepare your data in CSV format with the required features
-2. Run the preprocessing script:
-   ```bash
-   python src/preprocess.py --input data/raw/input.csv --output data/processed/
-   ```
-
-3. Train the model:
-   ```bash
-   python src/train.py --data data/processed/processed_data.csv --model-output models/
-   ```
-
-4. Make predictions:
-   ```bash
-   python src/predict.py --input data/test.csv --model models/model.pkl
-   ```
+1. Later..
 
 ## 📝 Data Dictionary
 
