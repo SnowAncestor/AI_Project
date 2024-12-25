@@ -7,7 +7,6 @@ from sklearn.metrics import precision_score, recall_score, f1_score, classificat
 from sklearn.ensemble import RandomForestClassifier
 
 def load_and_preprocess_data(file_path):
-    try:
         data = pd.read_csv(file_path)
         #حذف الداتا المكررة
         #inplace بمعنى ستعدل على الداتا الأصلية نفسها ولن ينشئ نسخة جديدة
@@ -27,9 +26,7 @@ def load_and_preprocess_data(file_path):
         for column in columns_to_encode:
             data[column] = label_encoder.fit_transform(data[column])
             
-        return data
-    except Exception as e:
-        raise Exception(f"Error in data preprocessing: {str(e)}")
+        return data, label_encoder
 
 
 def train_model(data):
@@ -103,6 +100,7 @@ def evaluate_model(model, X, Y, X_test, Y_test):
     }
     
     return metrics, Y_pred
+
 def validate_input(value, min_val, max_val, name, required=False):
     if not value.strip() and not required:
         return None
@@ -116,10 +114,11 @@ def validate_input(value, min_val, max_val, name, required=False):
             raise ValueError(f"{name} must be between {min_val} and {max_val}")
         return None
 
+
 def get_user_input(columns):
     default_values = {
-        'gender': 0,
-        'age': 25,
+        'Gender': 0,
+        'Age': 25,
         'family_history_with_overweight': 0,
         'FAVC': 0,
         'FCVC': 2,
@@ -134,10 +133,10 @@ def get_user_input(columns):
     }
     
     input_prompts = {
-        'height': ('Height (cm)', 50, 250, True),
-        'weight': ('Weight (kg)', 10, 300, True),
-        'gender': ('Gender (0:female, 1:male)', 0, 1, False),
-        'age': ('Age', 0, 120, False),
+        'Height': ('Height (cm)', 50, 250, True),
+        'Weight': ('Weight (kg)', 10, 300, True),
+        'Gender': ('Gender (0:female, 1:male)', 0, 1, False),
+        'Age': ('Age', 0, 120, False),
         'family_history_with_overweight': ('Family history of obesity? (0:No, 1:Yes)', 0, 1, False),
         'FAVC': ('High-calorie food consumption? (0:No, 1:Yes)', 0, 1, False),
         'CAEC': ('Eating between meals (0:Always - 3:Never)', 0, 3, False),
@@ -162,12 +161,17 @@ def get_user_input(columns):
             elif required:
                 print(f"Invalid input: {field} is required")
     
+    # Calculate BMI
+    height_m = user_data['Height'] / 100  # Convert cm to meters
+    user_data['BMI'] = user_data['Weight'] / (height_m * height_m)
+    
     # Add remaining default values
     for col in columns:
         if col not in user_data:
             user_data[col] = default_values.get(col, 2)
     
     return pd.DataFrame([user_data], columns=columns)
+
 
 def predict_with_probabilities(model, input_data, categories):
     predictions = model.predict(input_data)
@@ -186,7 +190,7 @@ def main():
         
         print("\n=== Obesity Prediction System ===\n")
         print("Initializing model...")
-        data = load_and_preprocess_data('Data/ObesityDataSet.csv')
+        data, encoders = load_and_preprocess_data('Data/ObesityDataSet.csv')
         model, X_train, X_test, Y_train, Y_test, columns = train_model(data)
         metrics, Y_pred = evaluate_model(model, data.drop("NObeyesdad", axis=1), 
                                       data["NObeyesdad"], X_test, Y_test)
