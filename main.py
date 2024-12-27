@@ -1,10 +1,11 @@
 from sklearn.preprocessing import LabelEncoder
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.naive_bayes import GaussianNB # naive bayes classifier
 from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier # decision tree classifier
 from sklearn.metrics import precision_score, recall_score, f1_score, classification_report
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier # random forest classifier
 
 def load_and_preprocess_data(file_path):
         data = pd.read_csv(file_path)
@@ -28,6 +29,14 @@ def load_and_preprocess_data(file_path):
             
         return data, label_encoder
 
+def naivebayes(data):
+    X = data.drop("NObeyesdad", axis=1)
+    Y = data["NObeyesdad"]
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.15, stratify=Y)
+    model = GaussianNB()
+    model.fit(X_train, Y_train)
+    Y_pred = model.predict(X_test)
+    return classification_report(Y_test, Y_pred)
 
 def train_model(data):
     X = data.drop("NObeyesdad", axis=1)#تم حذف الليبل الذي من المفترض ان يتنبئ به النموذج
