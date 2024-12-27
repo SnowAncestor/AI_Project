@@ -1,6 +1,6 @@
-from sklearn.preprocessing import LabelEncoder
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.preprocessing import LabelEncoder
 from sklearn.naive_bayes import GaussianNB # naive bayes classifier
 from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
 from sklearn.tree import DecisionTreeClassifier # decision tree classifier
@@ -17,8 +17,8 @@ def load_and_preprocess_data(file_path):
         label_encoder = LabelEncoder()
         columns_to_encode = [
             "Gender", "family_history_with_overweight", "FAVC", "CAEC",
-            "SMOKE", "SCC", "CALC", "MTRANS", "NObeyesdad"
-        ]
+            "SMOKE", "SCC", "CALC", "MTRANS", "NObeyesdad"]
+
         #تحويل كل عمود وقيمه الفريدة لأرقام
         #مثال لو كان لدي [a,b,c,d]
         #سيقوم بجعله [0,1,2,3] للقيم التي غير متكررة
@@ -38,13 +38,22 @@ def naivebayes(data):
     Y_pred = model.predict(X_test)
     return classification_report(Y_test, Y_pred)
 
+def randomforest(data):
+    X = data.drop("NObeyesdad")
+    Y = data["NObeyesdad"]
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.15, stratify=Y)
+    model = RandomForestClassifier()
+    model.fit(X_train, Y_train)
+    Y_pred = model.predict(X_test)
+    return classification_report(Y_test, Y_pred)
+
 def train_model(data):
-    X = data.drop("NObeyesdad", axis=1)#تم حذف الليبل الذي من المفترض ان يتنبئ به النموذج
+    X = data.drop("NObeyesdad")#تم حذف الليبل الذي من المفترض ان يتنبئ به النموذج
     Y = data["NObeyesdad"] #الهدف الذي نريد التنبؤ به وهو مخزن في y
     #x: هكذا يتعلم النموذج ان هذه القيم هي القيم التي من المفترض ان يحصل على واحد او اكثر منها ليتنبئ
     #y: وهكذا يعرف أي قيمة ينبغي عليه التنبؤ بها
 
-    #x : هي الميزات التي سيتعلم بناءً عليها النموذج
+    #x : هي الميزات التي سيتعلم بناءً عليها النموذج--
     #y : هو الهدف الذي ينبغي للنموذج التنبؤ به
     #هنا سيختبر الميزات والهدف اولًا ولكننا فصلناهم كي نعرف أيهم هو الهدف الذي نحن بحاجة للتنبؤ به
     #حددنا نسبة 15% للاختبار
@@ -52,10 +61,7 @@ def train_model(data):
     #startify : تم استخدامها لسبب بسيط وهو ضمان أن توزيع الفئات التدريب والنتائج تكون متوازنة، فمثلا
     #لو كان لدي 30 بالمئة من النتائج تخرج على أن الشخص سمنة مفرطة، فمن غير المنطقي توزيعه على 50 50
     #بل من الأفضل توزيعه على 30 30 لأنه حينها ستكون النتيجة أكثر توازن
-    X_train, X_test, Y_train, Y_test = train_test_split(
-        X, Y, test_size=0.15, stratify=Y
-    )
-    
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.15, stratify=Y)
 
     #max_depth هنا وضعناها لأننا بدونها الشجرة ستتفرع بشكل مستمر وحينها قد تكون النتيجة غير دقيقة او
     #overfitting
